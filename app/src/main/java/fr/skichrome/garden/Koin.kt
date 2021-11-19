@@ -1,8 +1,8 @@
 package fr.skichrome.garden
 
-import fr.skichrome.garden.main.MainRepository
-import fr.skichrome.garden.main.MainRepositoryImpl
-import fr.skichrome.garden.main.MainViewModel
+import fr.skichrome.garden.home.HomeRepository
+import fr.skichrome.garden.home.HomeRepositoryImpl
+import fr.skichrome.garden.home.HomeViewModel
 import fr.skichrome.garden.model.DeviceSource
 import fr.skichrome.garden.model.DeviceSourceImpl
 import fr.skichrome.garden.model.api.ApiService
@@ -31,6 +31,6 @@ private val networkModule = module {
 
 private val mainModule = module {
     single<DeviceSource> { DeviceSourceImpl() }
-    single<MainRepository> { MainRepositoryImpl(get()) }
-    viewModel { MainViewModel(get()) }
+    single<HomeRepository> { HomeRepositoryImpl(get()) }
+    viewModel { HomeViewModel(get()) }
 }
