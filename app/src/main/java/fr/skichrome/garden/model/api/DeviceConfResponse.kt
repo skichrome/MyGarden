@@ -6,11 +6,12 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class DeviceConfResponse(
     @Json(name = "statusCode") val statusCode: Int,
-    @Json(name = "result") val result: List<DeviceConfResult>
+    @Json(name = "status") val status: String,
+    @Json(name = "result") val result: DeviceConfResult?
 )
 
 data class DeviceConfResult(
-    @Json(name = "time_start_hour") val timeStartHour: Long,
-    @Json(name = "time_start_min") val timeStartMin: Long,
-    @Json(name = "duration") val duration: Long
+    @Json(name = "time_start_hour") val timeStartHour: Int,
+    @Json(name = "time_start_min") val timeStartMin: Int,
+    @Json(name = "duration") val duration: Int
 )

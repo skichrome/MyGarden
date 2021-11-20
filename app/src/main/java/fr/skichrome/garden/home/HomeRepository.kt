@@ -1,6 +1,6 @@
 package fr.skichrome.garden.home
 
-import fr.skichrome.garden.model.DeviceSource
+import fr.skichrome.garden.model.local.DeviceSource
 
 interface HomeRepository
 {
