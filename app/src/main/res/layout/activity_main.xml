@@ -35,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activityMainAppBarLayout"
             app:navGraph="@navigation/main_navigation" />
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/activityMainProgressBar"
             android:layout_width="wrap_content"
             android:progress="0"

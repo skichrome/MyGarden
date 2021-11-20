@@ -3,13 +3,14 @@ package fr.skichrome.garden.model.api
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class SensorsDataResponse(
     @Json(name = "statusCode") val statusCode: Int,
     @Json(name = "status") val status: String,
     @Json(name = "result") val result: List<SensorsDataResult>?
 )
 
+@JsonClass(generateAdapter = true)
 data class SensorsDataResult(
     @Json(name = "id") val id: Long,
     @Json(name = "altitude") val altitude: Long,

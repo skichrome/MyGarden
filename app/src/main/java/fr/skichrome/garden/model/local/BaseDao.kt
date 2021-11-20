@@ -29,11 +29,11 @@ interface BaseDao<T>
     suspend fun update(entity: T): Int
 
     @Update
-    suspend fun update(vararg entity: T): List<Int>
+    suspend fun update(vararg entity: T): Int
 
     @Delete
     suspend fun delete(entity: T): Int
 
     @Delete
-    suspend fun delete(vararg entity: T): List<Int>
+    suspend fun delete(vararg entity: T): Int
 }

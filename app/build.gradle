@@ -16,6 +16,15 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def credentialsFile = rootProject.file("credentials.properties")
+        if (credentialsFile.exists()) {
+            def credProps = new Properties()
+            credProps.load(new FileInputStream(credentialsFile))
+
+            buildConfigField("String", "API_BASE_URL", credProps['apiBaseUrl'])
+            buildConfigField("String", "API_KEY", credProps['apiKey'])
+        }
     }
 
     buildTypes {
@@ -38,7 +47,6 @@ android {
     buildFeatures {
         dataBinding true
     }
-    compileSdkVersion 31
 }
 
 dependencies {
@@ -71,9 +79,10 @@ dependencies {
 
     // Retrofit & Moshi
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
-    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"

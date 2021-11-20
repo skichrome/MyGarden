@@ -45,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main)
             getWorkInfoByIdLiveData(workRequest.id).observe(this@MainActivity) {
                 it?.let { workInfo ->
                     val progress = workInfo.progress.getInt(DataSyncWorker.WM_PROGRESS_ID, 0)
-                    binding.activityMainProgressBar.progress = progress
+                    binding.activityMainProgressBar.setProgressCompat(progress, true)
                 }
             }
         }

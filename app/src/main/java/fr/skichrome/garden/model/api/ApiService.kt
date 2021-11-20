@@ -1,9 +1,15 @@
 package fr.skichrome.garden.model.api
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import fr.skichrome.garden.BuildConfig
 import fr.skichrome.garden.util.AppResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -13,11 +19,24 @@ interface ApiService
 {
     companion object
     {
-        fun getApiService(): ApiService = Retrofit.Builder()
-            .baseUrl("https://nodered.campeoltoni.fr/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
+        private const val API_KEY_HEADER = "apikey"
+        private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        private val loggerInterceptor = HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        }
+        private val headerInterceptor = Interceptor { chain ->
+            val requestBuilder = chain.request().newBuilder()
+            requestBuilder.header(API_KEY_HEADER, BuildConfig.API_KEY)
+            return@Interceptor chain.proceed(requestBuilder.build())
+        }
+
+        fun getApiService(debugNeeded: Boolean = false): ApiService = Retrofit.Builder().apply {
+            baseUrl(BuildConfig.API_BASE_URL)
+            addConverterFactory(MoshiConverterFactory.create(moshi))
+            if (debugNeeded)
+                client(OkHttpClient.Builder().addInterceptor(loggerInterceptor).build())
+            client(OkHttpClient.Builder().addInterceptor(headerInterceptor).build())
+        }.build().create(ApiService::class.java)
     }
 
     @GET("device/{deviceId}/configuration")
@@ -65,7 +84,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get device configuration")
+            Timber.e("An error occurred when trying to get device configuration", e)
             AppResult.Error(e)
         }
     }
@@ -79,7 +98,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to push device configuration")
+            Timber.e("An error occurred when trying to push device configuration", e)
             AppResult.Error(e)
         }
     }
@@ -91,7 +110,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get devices list")
+            Timber.e("An error occurred when trying to get devices list", e)
             AppResult.Error(e)
         }
     }
@@ -104,7 +123,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
                 AppResult.Success(result)
             } catch (e: Throwable)
             {
-                Timber.e("An error occurred when trying to create new device")
+                Timber.e("An error occurred when trying to create new device", e)
                 AppResult.Error(e)
             }
         }
@@ -116,7 +135,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get sensors data")
+            Timber.e("An error occurred when trying to get sensors data", e)
             AppResult.Error(e)
         }
     }
