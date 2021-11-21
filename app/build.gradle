@@ -43,6 +43,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
+        kotlinOptions.useIR = true
     }
     buildFeatures {
         dataBinding true
@@ -68,6 +69,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
@@ -80,14 +82,15 @@ dependencies {
     // Retrofit & Moshi
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

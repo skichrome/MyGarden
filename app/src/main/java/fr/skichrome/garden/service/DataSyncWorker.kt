@@ -5,10 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import fr.skichrome.garden.util.AppResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -50,29 +47,23 @@ class DataSyncWorker(appContext: Context, workerParams: WorkerParameters) : Coro
         setProgress(progress)
     }
 
-    private suspend fun synchronizeDevices(): Result =
-        when (val result = dataSyncRepository.synchronizeDevices())
+    private suspend fun synchronizeDevices(): Result = withContext(Dispatchers.IO) {
+        return@withContext when (val result = dataSyncRepository.synchronizeDevices())
         {
             is AppResult.Success ->
             {
-                withContext(Dispatchers.IO) {
-                    updateProgress(PROGRESS_DEVICES_OK)
-                    val syncResult = listOf(
-                        synchronizeDevicesConfiguration(result.data),
-                        synchronizeDevicesData(result.data)
-                    )
+                updateProgress(PROGRESS_DEVICES_OK)
+                val syncResult = listOf(
+                    synchronizeDevicesConfiguration(result.data),
+                    synchronizeDevicesData(result.data)
+                )
 
-                    Timber.e("Devices result: ${syncResult.map { it == Result.failure() }}")
-
-                    return@withContext if (syncResult.any { it == Result.failure() }) // Todo check work of any
-                        Result.failure()
-                    else
-                        Result.success()
-                }
-                Result.success()
+                if (syncResult.any { it is Result.Failure }) Result.failure()
+                else Result.success()
             }
             else -> Result.failure().also { Timber.e("An error occurred when sync devices") }
         }
+    }
 
     private suspend fun synchronizeDevicesConfiguration(devicesId: List<Long>): Result = withContext(Dispatchers.IO) {
         val asyncCalls = devicesId.map { id ->
@@ -85,12 +76,8 @@ class DataSyncWorker(appContext: Context, workerParams: WorkerParameters) : Coro
             }
         }.awaitAll().also { updateProgress(PROGRESS_CONF_OK) }
 
-        Timber.e("Devices result: ${asyncCalls.map { it == Result.failure() }}")
-
-        return@withContext if (asyncCalls.any { it == Result.failure() }) // Todo check work of any
-            Result.failure()
-        else
-            Result.success()
+        return@withContext if (asyncCalls.any { it is Result.Failure }) Result.failure()
+        else Result.success()
     }
 
     private suspend fun synchronizeDevicesData(devicesId: List<Long>): Result = withContext(Dispatchers.IO) {
@@ -104,11 +91,7 @@ class DataSyncWorker(appContext: Context, workerParams: WorkerParameters) : Coro
             }
         }.awaitAll().also { updateProgress(PROGRESS_END) }
 
-        Timber.e("Devices result: ${asyncCalls.map { it == Result.failure() }}")
-
-        return@withContext if (asyncCalls.any { it == Result.failure() }) // Todo check work of any
-            Result.failure()
-        else
-            Result.success()
+        return@withContext if (asyncCalls.any { it is Result.Failure }) Result.failure()
+        else Result.success()
     }
 }
