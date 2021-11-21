@@ -1,10 +1,15 @@
 package fr.skichrome.garden.home
 
+import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import fr.skichrome.garden.R
 import fr.skichrome.garden.databinding.FragmentHomeBinding
 import fr.skichrome.garden.model.local.Device
+import fr.skichrome.garden.model.local.DeviceData
 import fr.skichrome.garden.util.AppEventObserver
 import fr.skichrome.garden.util.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             {
                 Timber.d("No device selected placeholder")
             } else
-                Timber.d("Loaded device data [${it.map { dd -> dd.id }}]")
+                updateTemperatureChart(it)
         }
     }
 
@@ -73,5 +78,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 Timber.i("[fragmentHomeSpinnerDevices] - OnNothingSelected called")
             }
         }
+    }
+
+    // --- Charts --- //
+
+    private fun updateTemperatureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeTemperatureChart) {
+        val entries = deviceDataList.map { Entry(it.timestamp.toFloat(), it.temperature.toFloat()) }
+        val lineDataSet = LineDataSet(entries, "Temperature")
+        lineDataSet.color = Color.CYAN
+        lineDataSet.valueTextColor = Color.RED
+        val lineData = LineData(lineDataSet)
+        data = lineData
+        invalidate()
     }
 }
