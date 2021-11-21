@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private var layout: Int) : Fragment()
 {
@@ -31,4 +33,10 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private var layout: 
         super.onViewCreated(view, savedInstanceState)
         onBindingReady()
     }
+
+    // =================================
+    //              Methods
+    // =================================
+
+    protected fun showSnackBar(@StringRes msgRef: Int) = Snackbar.make(binding.root, msgRef, Snackbar.LENGTH_LONG).show()
 }

@@ -2,4 +2,9 @@
 
 <resources>
     <string name="app_name">My Garden</string>
+
+    <!-- Home Fragment -->
+    <string name="fragment_home_spinner_null_entry">Select a device</string>
+    <string name="view_model_home_load_device_error">An error occurred when trying to load the device</string>
+    <string name="view_model_home_load_device_data_error">An error occurred when trying to load device data</string>
 </resources>

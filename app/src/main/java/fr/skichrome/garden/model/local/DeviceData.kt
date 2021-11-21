@@ -1,7 +1,5 @@
 package fr.skichrome.garden.model.local
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import androidx.room.*
 import fr.skichrome.garden.util.AppResult
 import kotlinx.coroutines.CoroutineDispatcher
@@ -35,12 +33,12 @@ data class DeviceData(
 interface DeviceDataDao : BaseDao<DeviceData>
 {
     @Query("SELECT * FROM devices_data WHERE device_ref == :deviceRef")
-    fun observeDeviceDataByDevice(deviceRef: Long): LiveData<List<DeviceData>>
+    suspend fun getDeviceDataByDevice(deviceRef: Long): List<DeviceData>
 }
 
 interface DeviceDataSource
 {
-    suspend fun observeDevicesDataByDevice(deviceRef: Long): LiveData<AppResult<List<DeviceData>>>
+    suspend fun getDevicesDataByDevice(deviceRef: Long): AppResult<List<DeviceData>>
     suspend fun insertDevicesData(devicesData: List<DeviceData>): AppResult<List<Long>>
 }
 
@@ -56,8 +54,16 @@ class DeviceDataSourceImpl(db: GardenDatabase, private val dispatcher: Coroutine
     //         Superclass Methods
     // ===================================
 
-    override suspend fun observeDevicesDataByDevice(deviceRef: Long): LiveData<AppResult<List<DeviceData>>> =
-        deviceDataDao.observeDeviceDataByDevice(deviceRef).map { AppResult.Success(it) }
+    override suspend fun getDevicesDataByDevice(deviceRef: Long): AppResult<List<DeviceData>> = withContext(dispatcher) {
+        return@withContext try
+        {
+            val result = deviceDataDao.getDeviceDataByDevice(deviceRef)
+            AppResult.Success(result)
+        } catch (e: Throwable)
+        {
+            AppResult.Error(e)
+        }
+    }
 
     override suspend fun insertDevicesData(devicesData: List<DeviceData>): AppResult<List<Long>> = withContext(dispatcher) {
         return@withContext try

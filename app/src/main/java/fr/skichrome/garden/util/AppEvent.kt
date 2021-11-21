@@ -54,7 +54,7 @@ open class AppEvent<out T>(private val content: T)
  *
  * [onEventUnhandledContent] is *only* called if the [AppEvent]'s contents has not been handled.
  */
-class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<AppEvent<T>>
+class AppEventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<AppEvent<T>>
 {
     override fun onChanged(event: AppEvent<T>?)
     {

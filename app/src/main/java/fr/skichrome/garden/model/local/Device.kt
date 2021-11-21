@@ -26,6 +26,9 @@ interface DeviceDao : BaseDao<Device>
 
     @Query("SELECT * FROM devices")
     suspend fun getAllDeviceId(): List<Device>
+
+    @Query("SELECT * FROM devices WHERE device_id = :deviceId LIMIT 1")
+    suspend fun getDevice(deviceId: Long): Device
 }
 
 interface DeviceSource
@@ -33,6 +36,7 @@ interface DeviceSource
     fun observeDevices(): LiveData<AppResult<List<Device>>>
     suspend fun insertDevices(devices: List<Device>): AppResult<List<Long>>
     suspend fun getAllDevicesId(): AppResult<List<Long>>
+    suspend fun getDevice(deviceId: Long): AppResult<Device>
 }
 
 class DeviceSourceImpl(db: GardenDatabase, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) : DeviceSource
@@ -65,6 +69,17 @@ class DeviceSourceImpl(db: GardenDatabase, private val dispatcher: CoroutineDisp
         return@withContext try
         {
             val result = deviceDao.getAllDeviceId().map { it.id }
+            AppResult.Success(result)
+        } catch (e: Throwable)
+        {
+            AppResult.Error(e)
+        }
+    }
+
+    override suspend fun getDevice(deviceId: Long): AppResult<Device> = withContext(dispatcher) {
+        return@withContext try
+        {
+            val result = deviceDao.getDevice(deviceId)
             AppResult.Success(result)
         } catch (e: Throwable)
         {

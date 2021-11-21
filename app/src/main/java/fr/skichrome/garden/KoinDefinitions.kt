@@ -45,6 +45,6 @@ private val dataSyncModule = module {
 }
 
 private val mainModule = module {
-    single<HomeRepository> { HomeRepositoryImpl(get()) }
+    single<HomeRepository> { HomeRepositoryImpl(get(), get()) }
     viewModel { HomeViewModel(get()) }
 }
