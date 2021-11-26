@@ -1,5 +1,6 @@
 package fr.skichrome.garden.home
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
@@ -14,6 +15,7 @@ import fr.skichrome.garden.util.AppEventObserver
 import fr.skichrome.garden.util.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
 {
@@ -24,6 +26,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     private val homeViewModel: HomeViewModel by viewModel()
     private var spinnerAdapter: HomeSpinnerAdapter? = null
 
+    private var filterStartDate: Long? = null
+    private var filterEndDate: Long? = null
+
     // ===================================
     //         Superclass Methods
     // ===================================
@@ -31,6 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     override fun onBindingReady()
     {
         configureViewModel()
+        configureDatePickers()
     }
 
     override fun onDestroyView()
@@ -53,6 +59,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 Timber.d("No device selected placeholder")
             } else
                 updateTemperatureChart(it)
+        }
+    }
+
+    private fun configureDatePickers()
+    {
+        val now = Calendar.getInstance(Locale.getDefault())
+        binding.fragmentHomeFilterStartDateText.setOnClickListener {
+            val dpd = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+                val calendar = Calendar.getInstance(Locale.getDefault())
+                calendar.set(year, month, dayOfMonth, 0, 0, 0)
+                filterStartDate = calendar.timeInMillis
+
+                val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
+                binding.fragmentHomeFilterStartDateText.setText(dateStr)
+            }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+            dpd.datePicker.maxDate = filterEndDate ?: now.timeInMillis
+            dpd.show()
+        }
+        binding.fragmentHomeFilterEndDateText.setOnClickListener {
+            val dpd = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+                val calendar = Calendar.getInstance(Locale.getDefault())
+                calendar.set(year, month, dayOfMonth, 23, 59, 59)
+                filterEndDate = calendar.timeInMillis
+
+                // Prevent end date under start date if inferior end date is entered in second
+                if (filterStartDate ?: 0 > filterEndDate ?: 0)
+                {
+                    binding.fragmentHomeFilterStartDateText.setText("")
+                    filterStartDate = null
+                }
+
+                val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
+                binding.fragmentHomeFilterEndDateText.setText(dateStr)
+            }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+            dpd.datePicker.maxDate = now.timeInMillis
+            dpd.show()
         }
     }
 
