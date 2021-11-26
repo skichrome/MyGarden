@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import fr.skichrome.garden.R
 import fr.skichrome.garden.databinding.FragmentHomeBinding
+import fr.skichrome.garden.model.DeviceFilter
 import fr.skichrome.garden.model.local.Device
 import fr.skichrome.garden.model.local.DeviceData
 import fr.skichrome.garden.util.AppEventObserver
@@ -26,6 +27,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     private val homeViewModel: HomeViewModel by viewModel()
     private var spinnerAdapter: HomeSpinnerAdapter? = null
 
+    private var selectedDevice: Device? = null
     private var filterStartDate: Long? = null
     private var filterEndDate: Long? = null
 
@@ -71,6 +73,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 calendar.set(year, month, dayOfMonth, 0, 0, 0)
                 filterStartDate = calendar.timeInMillis
 
+                updateDeviceAndFilters()
+
                 val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
                 binding.fragmentHomeFilterStartDateText.setText(dateStr)
             }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
@@ -90,11 +94,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                     filterStartDate = null
                 }
 
+                updateDeviceAndFilters()
+
                 val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
                 binding.fragmentHomeFilterEndDateText.setText(dateStr)
             }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
             dpd.datePicker.maxDate = now.timeInMillis
             dpd.show()
+        }
+
+        binding.fragmentHomeBtnClearFilter.setOnClickListener {
+            binding.fragmentHomeFilterStartDateText.setText("")
+            binding.fragmentHomeFilterEndDateText.setText("")
+            filterEndDate = null
+            filterStartDate = null
+            updateDeviceAndFilters()
         }
     }
 
@@ -111,8 +125,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
             {
-                homeViewModel.setCurrentDevice(itemsWithNullEntry[position].first)
-                    .also { Timber.d("Loading device [${itemsWithNullEntry[position].first?.id}] [${itemsWithNullEntry[position].second}]") }
+                selectedDevice = itemsWithNullEntry[position].first
+                updateDeviceAndFilters()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?)
@@ -120,6 +134,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 Timber.i("[fragmentHomeSpinnerDevices] - OnNothingSelected called")
             }
         }
+    }
+
+    private fun updateDeviceAndFilters()
+    {
+        val deviceFilter = DeviceFilter(
+            startDate = filterStartDate?.let { it / 1000 },
+            endDate = filterEndDate?.let { it / 1000 }
+        )
+        homeViewModel.setCurrentDevice(selectedDevice, deviceFilter)
+            .also { Timber.d("Loading device [${selectedDevice?.id}]") }
     }
 
     // --- Charts --- //

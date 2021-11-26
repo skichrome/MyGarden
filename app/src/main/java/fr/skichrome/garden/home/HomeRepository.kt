@@ -1,6 +1,7 @@
 package fr.skichrome.garden.home
 
 import androidx.lifecycle.LiveData
+import fr.skichrome.garden.model.DeviceFilter
 import fr.skichrome.garden.model.local.Device
 import fr.skichrome.garden.model.local.DeviceData
 import fr.skichrome.garden.model.local.DeviceDataSource
@@ -16,7 +17,7 @@ interface HomeRepository
 
     // --- Device Data --- //
 
-    suspend fun getDeviceData(deviceId: Long): AppResult<List<DeviceData>>
+    suspend fun getDeviceData(deviceId: Long, filter: DeviceFilter): AppResult<List<DeviceData>>
 }
 
 class HomeRepositoryImpl(private val deviceSource: DeviceSource, private val deviceDataSource: DeviceDataSource) : HomeRepository
@@ -28,5 +29,6 @@ class HomeRepositoryImpl(private val deviceSource: DeviceSource, private val dev
 
     // --- Device Data --- //
 
-    override suspend fun getDeviceData(deviceId: Long): AppResult<List<DeviceData>> = deviceDataSource.getDevicesDataByDevice(deviceId)
+    override suspend fun getDeviceData(deviceId: Long, filter: DeviceFilter): AppResult<List<DeviceData>> =
+        deviceDataSource.getDevicesDataByDevice(deviceId, filter)
 }

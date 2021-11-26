@@ -6,8 +6,9 @@
     <!-- Home Fragment -->
     <string name="fragment_home_spinner_null_entry">Select a device</string>
     <string name="fragment_home_filter_date_title">Filtrer par date</string>
-    <string name="fragment_home_filter_date_start_hint">Début</string>
-    <string name="fragment_home_filter_date_end_hint">Fin</string>
+    <string name="fragment_home_filter_date_start_hint">Start</string>
+    <string name="fragment_home_filter_date_end_hint">End</string>
+    <string name="fragment_home_filter_btn_clear">Clear</string>
     <string name="view_model_home_load_device_error">An error occurred when trying to load the device</string>
     <string name="view_model_home_load_device_data_error">An error occurred when trying to load device data</string>
 </resources>

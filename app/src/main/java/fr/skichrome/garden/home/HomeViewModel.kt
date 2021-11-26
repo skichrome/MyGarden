@@ -3,6 +3,7 @@ package fr.skichrome.garden.home
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import fr.skichrome.garden.R
+import fr.skichrome.garden.model.DeviceFilter
 import fr.skichrome.garden.model.local.Device
 import fr.skichrome.garden.model.local.DeviceData
 import fr.skichrome.garden.util.AppEvent
@@ -26,15 +27,14 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
     }
     val devices: LiveData<List<Device>> = _devices
 
-    private val _currentDevice = MutableLiveData<Device?>()
+    private val _currentDevice = MutableLiveData<Pair<Device?, DeviceFilter>>()
 
     // --- Devices data --- //
 
-    private val _devicesData: LiveData<List<DeviceData>?> = _currentDevice.switchMap { device ->
-        if (device == null)
+    private val _devicesData: LiveData<List<DeviceData>?> = _currentDevice.switchMap { deviceAndFilter ->
+        if (deviceAndFilter.first == null)
             return@switchMap MutableLiveData(null)
-
-        return@switchMap loadDeviceData(deviceId = device.id)
+        return@switchMap loadDeviceData(deviceAndFilter.first!!.id, deviceAndFilter.second)
     }
     val devicesData: LiveData<List<DeviceData>?> = _devicesData
 
@@ -47,12 +47,12 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
         _errorMsgRef.value = AppEvent(msgRef)
     }
 
-    private fun loadDeviceData(deviceId: Long): MutableLiveData<List<DeviceData>>
+    private fun loadDeviceData(deviceId: Long, filter: DeviceFilter): MutableLiveData<List<DeviceData>>
     {
         val resultLiveData: MutableLiveData<List<DeviceData>> = MutableLiveData(emptyList())
 
         viewModelScope.launch {
-            when (val result = repository.getDeviceData(deviceId))
+            when (val result = repository.getDeviceData(deviceId, filter))
             {
                 is AppResult.Success -> resultLiveData.value = result.data
                 else -> setError(R.string.view_model_home_load_device_data_error)
@@ -61,8 +61,8 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel()
         return resultLiveData
     }
 
-    fun setCurrentDevice(device: Device?)
+    fun setCurrentDevice(device: Device?, filter: DeviceFilter)
     {
-        _currentDevice.value = device
+        _currentDevice.value = Pair(device, filter)
     }
 }
