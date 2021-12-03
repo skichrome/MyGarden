@@ -84,7 +84,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get device configuration", e)
+            Timber.e(e, "An error occurred when trying to get device configuration")
             AppResult.Error(e)
         }
     }
@@ -98,7 +98,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to push device configuration", e)
+            Timber.e(e, "An error occurred when trying to push device configuration")
             AppResult.Error(e)
         }
     }
@@ -110,7 +110,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get devices list", e)
+            Timber.e(e, "An error occurred when trying to get devices list")
             AppResult.Error(e)
         }
     }
@@ -123,7 +123,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
                 AppResult.Success(result)
             } catch (e: Throwable)
             {
-                Timber.e("An error occurred when trying to create new device", e)
+                Timber.e(e, "An error occurred when trying to create new device")
                 AppResult.Error(e)
             }
         }
@@ -135,7 +135,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             AppResult.Success(result)
         } catch (e: Throwable)
         {
-            Timber.e("An error occurred when trying to get sensors data", e)
+            Timber.e(e, "An error occurred when trying to get sensors data")
             AppResult.Error(e)
         }
     }
