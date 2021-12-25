@@ -6,6 +6,8 @@
     <!-- Home Fragment -->
     <string name="fragment_home_spinner_null_entry">Select a device</string>
     <string name="fragment_home_filter_date_title">Filtrer par date</string>
+    <string name="fragment_home_temperature_chart_title">Temperature</string>
+    <string name="fragment_home_pressure_chart_title">Atmospheric Pressure and Altitude</string>
     <string name="fragment_home_filter_date_start_hint">Start</string>
     <string name="fragment_home_filter_date_end_hint">End</string>
     <string name="fragment_home_filter_btn_clear">Clear</string>

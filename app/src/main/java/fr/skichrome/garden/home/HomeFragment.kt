@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -168,8 +169,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         }
 
         // --- Chart configuration --- //
+        axisRight.isEnabled = false
+        with(xAxis) {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            formatAxisToDate()
+        }
         val lineData = LineData(temperatureLineDataSet)
-        formatAxisToDate(xAxis)
+        description = null
         data = lineData
         invalidate()
     }
@@ -201,17 +208,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         if (BuildConfig.DEBUG)
             isLogEnabled = true
 
+        with(xAxis) {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            formatAxisToDate()
+        }
         val lineData = LineData(barometricLineDataSet, altitudeLineDataSet)
-        formatAxisToDate(xAxis)
+        description = null
         data = lineData
         invalidate()
     }
 
-    private fun formatAxisToDate(axis: AxisBase)
+    private fun AxisBase.formatAxisToDate()
     {
         val calendar = Calendar.getInstance()
-
-        val valueFormatter = object : ValueFormatter()
+        granularity = 1f
+        valueFormatter = object : ValueFormatter()
         {
             override fun getAxisLabel(value: Float, axis: AxisBase?): String
             {
@@ -228,7 +240,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 return formatted
             }
         }
-        axis.granularity = 1f
-        axis.valueFormatter = valueFormatter
     }
 }

@@ -18,41 +18,85 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/spinner_item_devices" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fragmentHomeTemperatureChartCardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardElevation="6dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentHomePressureChartCardView">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/fragmentHomeTemperatureChart"
-                android:layout_width="match_parent"
-                android:layout_margin="8dp"
-                android:layout_height="220dp"/>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fragmentHomePressureChartCardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardElevation="6dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentHomeBtnClearFilter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragmentHomeSpinnerDevices">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/fragmentHomePressureChart"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_margin="8dp"
-                android:layout_height="220dp"/>
-        </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fragmentHomeTemperatureChartCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="6dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/fragment_home_temperature_chart_title" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentHomeTemperatureChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginBottom="8dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fragmentHomePressureChartCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="6dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentHomeTemperatureChartCardView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/fragment_home_pressure_chart_title" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentHomePressureChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginBottom="8dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/fragmentHomeFilterTitle"
