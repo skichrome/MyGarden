@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.textfield.TextInputEditText
 import fr.skichrome.garden.BuildConfig
 import fr.skichrome.garden.R
 import fr.skichrome.garden.databinding.FragmentHomeBinding
@@ -82,9 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 filterStartDate = calendar.timeInMillis
 
                 updateDeviceAndFilters()
-
-                val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
-                binding.fragmentHomeFilterStartDateText.setText(dateStr)
+                binding.fragmentHomeFilterStartDateText.setTextDate(calendar)
             }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
             dpd.datePicker.maxDate = filterEndDate ?: now.timeInMillis
             dpd.show()
@@ -103,9 +102,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                 }
 
                 updateDeviceAndFilters()
-
-                val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 10) "0$month" else month}/$year"
-                binding.fragmentHomeFilterEndDateText.setText(dateStr)
+                binding.fragmentHomeFilterEndDateText.setTextDate(calendar)
             }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
             dpd.datePicker.maxDate = now.timeInMillis
             dpd.show()
@@ -118,6 +115,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             filterStartDate = null
             updateDeviceAndFilters()
         }
+
+        val calendarForDefault = Calendar.getInstance(Locale.getDefault())
+        binding.fragmentHomeFilterEndDateText.setTextDate(calendarForDefault)
+        filterEndDate = calendarForDefault.timeInMillis
+        calendarForDefault.add(Calendar.DAY_OF_MONTH, -7)
+        binding.fragmentHomeFilterStartDateText.setTextDate(calendarForDefault)
+        filterStartDate = calendarForDefault.timeInMillis
+        updateDeviceAndFilters()
+    }
+
+    private fun TextInputEditText.setTextDate(calendar: Calendar)
+    {
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val dateStr = "${if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth}/${if (month < 9) "0${month + 1}" else month + 1}/$year"
+        setText(dateStr)
     }
 
     private fun updateSpinner(devices: List<Device>)
@@ -235,9 +249,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
                     if (m < 10) "0$m" else "$m"
                 }
 
-                val formatted = "${hours}h$minutes"
-                Timber.e("Value: ${value.toLong()} / result: $formatted")
-                return formatted
+                return "${hours}h$minutes"
             }
         }
     }
