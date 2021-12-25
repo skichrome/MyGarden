@@ -4,6 +4,9 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
+import androidx.annotation.ColorRes
+import androidx.core.content.res.ResourcesCompat
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -192,6 +195,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         val lineData = LineData(temperatureLineDataSet)
         description = null
         data = lineData
+        updateChartTextColor()
         invalidate()
     }
 
@@ -230,6 +234,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         val lineData = LineData(barometricLineDataSet, altitudeLineDataSet)
         description = null
         data = lineData
+        updateChartTextColor()
         invalidate()
     }
 
@@ -253,4 +258,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             }
         }
     }
+
+    private fun LineChart.updateChartTextColor()
+    {
+        val isNightMode = resources.getBoolean(R.bool.is_night_mode)
+        val colorOnBackgroundChart = if (isNightMode) getColor(R.color.white) else getColor(R.color.black)
+
+        xAxis?.textColor = colorOnBackgroundChart
+        axisLeft?.textColor = colorOnBackgroundChart
+        axisRight?.textColor = colorOnBackgroundChart
+        legend?.textColor = colorOnBackgroundChart
+    }
+
+    private fun getColor(@ColorRes color: Int): Int = ResourcesCompat.getColor(resources, color, context?.theme)
 }

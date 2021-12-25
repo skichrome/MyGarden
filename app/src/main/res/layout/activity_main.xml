@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -20,7 +21,10 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/activityMainToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimary"
+                app:title="@string/app_name"
+                app:titleTextColor="?attr/colorOnPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -38,10 +42,10 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/activityMainProgressBar"
             android:layout_width="wrap_content"
-            android:progress="0"
-            android:indeterminate="false"
             android:layout_height="wrap_content"
+            android:indeterminate="false"
             android:max="100"
+            android:progress="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
