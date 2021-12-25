@@ -69,6 +69,8 @@ class DeviceDataSourceImpl(db: GardenDatabase, private val dispatcher: Coroutine
             filter.startDate?.let { startDate -> rawQueryBuilder.append(" AND timestamp >= $startDate") }
             filter.endDate?.let { endDate -> rawQueryBuilder.append(" AND timestamp <= $endDate") }
 
+            rawQueryBuilder.append(" ORDER BY timestamp")
+
             val fullQuery = rawQueryBuilder.toString()
 
             Timber.w("Query: $fullQuery")

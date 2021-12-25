@@ -4,9 +4,13 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import fr.skichrome.garden.BuildConfig
 import fr.skichrome.garden.R
 import fr.skichrome.garden.databinding.FragmentHomeBinding
 import fr.skichrome.garden.model.DeviceFilter
@@ -60,7 +64,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             {
                 Timber.d("No device selected placeholder")
             } else
+            {
                 updateTemperatureChart(it)
+                updatePressureChart(it)
+            }
         }
     }
 
@@ -149,12 +156,79 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     // --- Charts --- //
 
     private fun updateTemperatureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeTemperatureChart) {
-        val entries = deviceDataList.map { Entry(it.timestamp.toFloat(), it.temperature.toFloat()) }
-        val lineDataSet = LineDataSet(entries, "Temperature")
-        lineDataSet.color = Color.CYAN
-        lineDataSet.valueTextColor = Color.RED
-        val lineData = LineData(lineDataSet)
+        // --- Chart Entries definition --- //
+        val temperatureEntries = deviceDataList.map {
+            Entry(it.timestamp.toFloat(), it.temperature.toFloat())
+        }
+
+        // --- Chart Lines definition --- //
+        val temperatureLineDataSet = LineDataSet(temperatureEntries, "Temperature").apply {
+            color = Color.CYAN
+            setDrawCircles(false)
+        }
+
+        // --- Chart configuration --- //
+        val lineData = LineData(temperatureLineDataSet)
+        formatAxisToDate(xAxis)
         data = lineData
         invalidate()
+    }
+
+    private fun updatePressureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomePressureChart) {
+        // --- Chart Entries definition --- //
+        val barometricEntries = deviceDataList.map {
+            Entry(it.timestamp.toFloat(), it.barometric.toFloat())
+        }
+
+        val altitudeEntries = deviceDataList.map {
+            Entry(it.timestamp.toFloat(), it.altitude.toFloat())
+        }
+
+        // --- Chart Lines definition --- //
+        val barometricLineDataSet = LineDataSet(barometricEntries, "Barometric Pressure").apply {
+            color = Color.RED
+            axisDependency = YAxis.AxisDependency.LEFT
+            setDrawCircles(false)
+        }
+
+        val altitudeLineDataSet = LineDataSet(altitudeEntries, "Altitude").apply {
+            color = Color.GREEN
+            axisDependency = YAxis.AxisDependency.RIGHT
+            setDrawCircles(false)
+        }
+
+        // --- Chart configuration --- //
+        if (BuildConfig.DEBUG)
+            isLogEnabled = true
+
+        val lineData = LineData(barometricLineDataSet, altitudeLineDataSet)
+        formatAxisToDate(xAxis)
+        data = lineData
+        invalidate()
+    }
+
+    private fun formatAxisToDate(axis: AxisBase)
+    {
+        val calendar = Calendar.getInstance()
+
+        val valueFormatter = object : ValueFormatter()
+        {
+            override fun getAxisLabel(value: Float, axis: AxisBase?): String
+            {
+                calendar.timeInMillis = (value * 1000).toLong()
+                val hours = calendar.get(Calendar.HOUR_OF_DAY).let { h ->
+                    if (h < 10) "0$h" else "$h"
+                }
+                val minutes = calendar.get(Calendar.MINUTE).let { m ->
+                    if (m < 10) "0$m" else "$m"
+                }
+
+                val formatted = "${hours}h$minutes"
+                Timber.e("Value: ${value.toLong()} / result: $formatted")
+                return formatted
+            }
+        }
+        axis.granularity = 1f
+        axis.valueFormatter = valueFormatter
     }
 }
