@@ -3,6 +3,10 @@
 <resources>
     <string name="app_name">My Garden</string>
 
+    <!-- Activity Main -->
+    <string name="overflow_menu_device_configuration">Device configuration</string>
+    <string name="overflow_menu_settings">Application Settings</string>
+
     <!-- Home Fragment -->
     <string name="fragment_home_spinner_null_entry">Select a device</string>
     <string name="fragment_home_filter_date_title">Filter by date</string>
@@ -15,4 +19,17 @@
     <string name="fragment_home_filter_btn_clear">Clear</string>
     <string name="view_model_home_load_device_error">An error occurred when trying to load the device</string>
     <string name="view_model_home_load_device_data_error">An error occurred when trying to load device data</string>
+
+    <!-- Device Fragment -->
+    <string name="fragment_device_definition_title">Device definition</string>
+    <string name="fragment_device_configuration_title">Device Configuration</string>
+    <string name="fragment_device_unique_id_hint">Device Unique ID (SigFox ID)</string>
+    <string name="fragment_device_name_hint">Device Name</string>
+    <string name="fragment_device_description_hint">Device Description</string>
+    <string name="fragment_device_sprinkle_enabled_sw_hint">Sprinkle enabled</string>
+    <string name="fragment_device_hour_hint">Sprinkle Hour</string>
+    <string name="fragment_device_minute_hint">Sprinkle Minute (approx.)</string>
+    <string name="fragment_device_duration_hint">Sprinkle Duration</string>
+    <string name="view_model_device_load_device_error">An error occurred when trying to load the device</string>
+    <string name="view_model_device_load_device_conf_error">An error occurred when trying to load the device configuration</string>
 </resources>

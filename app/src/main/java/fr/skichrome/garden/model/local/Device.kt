@@ -27,7 +27,7 @@ interface DeviceDao : BaseDao<Device>
     @Query("SELECT id FROM devices")
     suspend fun getAllDeviceId(): List<Long>
 
-    @Query("SELECT * FROM devices WHERE device_id = :deviceId LIMIT 1")
+    @Query("SELECT * FROM devices WHERE id = :deviceId LIMIT 1")
     suspend fun getDevice(deviceId: Long): Device
 }
 

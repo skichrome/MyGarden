@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="device"
+            type="fr.skichrome.garden.model.local.Device" />
+
+        <variable
+            name="deviceConfiguration"
+            type="fr.skichrome.garden.model.local.DeviceConfiguration" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/fragmentDeviceSpinnerDevices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/spinner_item_devices" />
+
+        <TextView
+            android:id="@+id/fragmentDeviceDefinitionTitle"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_device_definition_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceSpinnerDevices" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceUniqueIdLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_unique_id_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDefinitionTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceUniqueIdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:text='@{device != null ? device.deviceId : ""}'
+                tools:text="ABCDEF" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceNameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_name_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceUniqueIdLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:text='@{device != null ? device.name : ""}'
+                tools:text="Name of the current device" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceDescriptionLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_description_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceNameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceDescriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:text='@{device != null ? device.description : ""}'
+                tools:maxLines="4"
+                tools:text="@tools:sample/lorem/random" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/fragmentDeviceConfigurationTitle"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_device_configuration_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDescriptionLayout" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/fragmentDeviceSprinkleEnabledSw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:enabled="false"
+            android:text="@string/fragment_device_sprinkle_enabled_sw_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceConfigurationTitle" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceSprinkleHourLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_hour_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@+id/fragmentDeviceSprinkleMinuteLayout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceSprinkleEnabledSw"
+            app:suffixText="h">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceSprinkleHourText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text='@{deviceConfiguration != null ? String.valueOf(deviceConfiguration.startTimeHour) : ""}'
+                tools:text="18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceSprinkleMinuteLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_minute_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceSprinkleHourLayout"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceSprinkleEnabledSw"
+            app:suffixText="m">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceSprinkleMinuteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text='@{deviceConfiguration != null ? String.valueOf(deviceConfiguration.startTimeMin) : ""}'
+                tools:text="05" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragmentDeviceSprinkleDurationLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fragment_device_duration_hint"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceSprinkleHourLayout"
+            app:suffixText="m">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragmentDeviceSprinkleDurationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text='@{deviceConfiguration != null ? String.valueOf(deviceConfiguration.duration) : ""}'
+                tools:text="10" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

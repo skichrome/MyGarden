@@ -2,6 +2,9 @@ package fr.skichrome.garden
 
 import fr.skichrome.garden.androidmanager.NetManager
 import fr.skichrome.garden.androidmanager.NetManagerImpl
+import fr.skichrome.garden.device.DeviceRepository
+import fr.skichrome.garden.device.DeviceRepositoryImpl
+import fr.skichrome.garden.device.DeviceViewModel
 import fr.skichrome.garden.home.HomeRepository
 import fr.skichrome.garden.home.HomeRepositoryImpl
 import fr.skichrome.garden.home.HomeViewModel
@@ -21,7 +24,8 @@ fun getKoinModules(): List<Module> = listOf(
     localModule,
     networkModule,
     dataSyncModule,
-    mainModule
+    mainModule,
+    deviceModule
 )
 
 val androidManagerModule = module {
@@ -47,4 +51,9 @@ private val dataSyncModule = module {
 private val mainModule = module {
     single<HomeRepository> { HomeRepositoryImpl(get(), get()) }
     viewModel { HomeViewModel(get()) }
+}
+
+private val deviceModule = module {
+    single<DeviceRepository> { DeviceRepositoryImpl(get(), get()) }
+    viewModel { DeviceViewModel(get()) }
 }

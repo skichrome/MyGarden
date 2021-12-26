@@ -4,6 +4,8 @@ import android.view.View
 import androidx.core.view.postDelayed
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import fr.skichrome.garden.R
@@ -68,6 +70,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main)
         (supportFragmentManager.findFragmentById(R.id.activityMainNavHostFragment) as NavHostFragment).navController
 
     private fun configureToolbar(navController: NavController) = with(binding) {
-        activityMainToolbar.setupWithNavController(navController)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        activityMainToolbar.setOnMenuItemClickListener {
+            return@setOnMenuItemClickListener it.onNavDestinationSelected(navController) || super.onOptionsItemSelected(it)
+        }
+        activityMainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

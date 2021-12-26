@@ -32,11 +32,15 @@ interface DeviceConfigurationDao : BaseDao<DeviceConfiguration>
 {
     @Query("SELECT * FROM devices_configuration WHERE id == :deviceRef LIMIT 1")
     fun observeDeviceConfigurationFromDevice(deviceRef: Long): LiveData<DeviceConfiguration>
+
+    @Query("SELECT * FROM devices_configuration WHERE id == :deviceRef LIMIT 1")
+    suspend fun getDeviceConfigurationFromDevice(deviceRef: Long): DeviceConfiguration
 }
 
 interface DeviceConfSource
 {
     fun observeDeviceConfigurationFromDevice(deviceRef: Long): LiveData<AppResult<DeviceConfiguration>>
+    suspend fun getDeviceConfFromDevice(deviceRef: Long): AppResult<DeviceConfiguration>
     suspend fun insertDeviceConf(deviceConfiguration: DeviceConfiguration): AppResult<Long>
 }
 
@@ -54,6 +58,17 @@ class DeviceConfSourceImpl(db: GardenDatabase, private val dispatcher: Coroutine
 
     override fun observeDeviceConfigurationFromDevice(deviceRef: Long): LiveData<AppResult<DeviceConfiguration>> =
         deviceConfigurationDao.observeDeviceConfigurationFromDevice(deviceRef).map { AppResult.Success(it) }
+
+    override suspend fun getDeviceConfFromDevice(deviceRef: Long): AppResult<DeviceConfiguration> = withContext(dispatcher) {
+        return@withContext try
+        {
+            val result = deviceConfigurationDao.getDeviceConfigurationFromDevice(deviceRef)
+            AppResult.Success(result)
+        } catch (e: Throwable)
+        {
+            AppResult.Error(e)
+        }
+    }
 
     override suspend fun insertDeviceConf(deviceConfiguration: DeviceConfiguration): AppResult<Long> = withContext(dispatcher) {
         return@withContext try
