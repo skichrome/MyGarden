@@ -72,6 +72,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             {
                 updateTemperatureChart(it)
                 updatePressureChart(it)
+                updateSoilMoistureChart(it)
+                updateLuminosityChart(it)
             }
         }
     }
@@ -232,6 +234,58 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
             formatAxisToDate()
         }
         val lineData = LineData(barometricLineDataSet, altitudeLineDataSet)
+        description = null
+        data = lineData
+        updateChartTextColor()
+        invalidate()
+    }
+
+    private fun updateSoilMoistureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeSoilMoistureChart) {
+        // --- Chart Entries definition --- //
+        val soilMoistureEntries = deviceDataList.map {
+            Entry(it.timestamp.toFloat(), it.temperature.toFloat())
+        }
+
+        // --- Chart Lines definition --- //
+        val soilMoistureLineDataSet = LineDataSet(soilMoistureEntries, "Soil Moisture").apply {
+            color = Color.BLUE
+            setDrawCircles(false)
+        }
+
+        // --- Chart configuration --- //
+        axisRight.isEnabled = false
+        with(xAxis) {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            formatAxisToDate()
+        }
+        val lineData = LineData(soilMoistureLineDataSet)
+        description = null
+        data = lineData
+        updateChartTextColor()
+        invalidate()
+    }
+
+    private fun updateLuminosityChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeLuminosityChart) {
+        // --- Chart Entries definition --- //
+        val luminosityEntries = deviceDataList.map {
+            Entry(it.timestamp.toFloat(), it.luminosity.toFloat())
+        }
+
+        // --- Chart Lines definition --- //
+        val luminosityLineDataSet = LineDataSet(luminosityEntries, "Luminosity").apply {
+            color = Color.YELLOW
+            setDrawCircles(false)
+        }
+
+        // --- Chart configuration --- //
+        axisRight.isEnabled = false
+        with(xAxis) {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            formatAxisToDate()
+        }
+        val lineData = LineData(luminosityLineDataSet)
         description = null
         data = lineData
         updateChartTextColor()

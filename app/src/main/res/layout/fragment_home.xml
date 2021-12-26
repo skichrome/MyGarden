@@ -95,6 +95,72 @@
                             android:layout_marginBottom="8dp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fragmentHomeSoilMoistureChartCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="6dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentHomePressureChartCardView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/fragment_home_soil_moisture_chart_title" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentHomeSoilMoistureChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginBottom="8dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/fragmentHomeLuminosityChartCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="6dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentHomeSoilMoistureChartCardView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/fragment_home_luminosity_chart_title" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentHomeLuminosityChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginBottom="8dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

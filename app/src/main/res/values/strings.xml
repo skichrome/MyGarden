@@ -8,6 +8,8 @@
     <string name="fragment_home_filter_date_title">Filter by date</string>
     <string name="fragment_home_temperature_chart_title">Temperature</string>
     <string name="fragment_home_pressure_chart_title">Atmospheric Pressure and Altitude</string>
+    <string name="fragment_home_soil_moisture_chart_title">Soil Moisture</string>
+    <string name="fragment_home_luminosity_chart_title">Luminosity</string>
     <string name="fragment_home_filter_date_start_hint">Start</string>
     <string name="fragment_home_filter_date_end_hint">End</string>
     <string name="fragment_home_filter_btn_clear">Clear</string>
