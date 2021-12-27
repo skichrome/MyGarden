@@ -18,14 +18,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/activityMainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimary"
                 app:menu="@menu/activity_main_overflow_menu"
-                app:title="@string/app_name"
-                app:titleTextColor="?attr/colorOnPrimary" />
+                app:title="@string/app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
