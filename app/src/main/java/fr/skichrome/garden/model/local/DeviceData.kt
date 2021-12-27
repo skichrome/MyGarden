@@ -89,7 +89,7 @@ class DeviceDataSourceImpl(db: GardenDatabase, private val dispatcher: Coroutine
     override suspend fun insertDevicesData(devicesData: List<DeviceData>): AppResult<List<Long>> = withContext(dispatcher) {
         return@withContext try
         {
-            val result = deviceDataDao.insertIgnore(*devicesData.toTypedArray())
+            val result = deviceDataDao.insertReplace(*devicesData.toTypedArray())
             AppResult.Success(result)
         } catch (e: Throwable)
         {

@@ -73,7 +73,7 @@ class DeviceConfSourceImpl(db: GardenDatabase, private val dispatcher: Coroutine
     override suspend fun insertDeviceConf(deviceConfiguration: DeviceConfiguration): AppResult<Long> = withContext(dispatcher) {
         return@withContext try
         {
-            val result = deviceConfigurationDao.insertIgnore(deviceConfiguration)
+            val result = deviceConfigurationDao.insertReplace(deviceConfiguration)
             AppResult.Success(result)
         } catch (e: Throwable)
         {

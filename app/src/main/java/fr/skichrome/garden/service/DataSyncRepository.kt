@@ -6,6 +6,7 @@ import fr.skichrome.garden.model.local.*
 import fr.skichrome.garden.util.ApiException
 import fr.skichrome.garden.util.AppResult
 import fr.skichrome.garden.util.NetworkUnavailableException
+import timber.log.Timber
 
 interface DataSyncRepository
 {
@@ -34,7 +35,22 @@ class DataSyncRepositoryImpl(
             if ((apiResult as AppResult.Success).data.statusCode != 200)
                 return AppResult.Error(ApiException(apiResult.data.status))
 
-            // 2. Insert devices in local database
+            // 2. Delete difference from devices in local and remote
+            val previousDevicesIds = deviceSource.getAllDevicesId()
+
+            if (previousDevicesIds is AppResult.Error)
+                return previousDevicesIds
+
+            val apiIds = apiResult.data.result?.map { it.id } ?: emptyList()
+            (previousDevicesIds as AppResult.Success).data.map { localId ->
+                if (!apiIds.contains(localId))
+                {
+                    Timber.w("Device with ID [$localId] isn't available on remote, delete it")
+                    deviceSource.deleteDevice(localId)
+                }
+            }
+
+            // 3. Insert devices in local database
             val localDevices = apiResult.data.result?.map {
                 Device(it.id, it.deviceId, it.name, it.description)
             } ?: emptyList()
@@ -43,7 +59,7 @@ class DataSyncRepositoryImpl(
             if (localResult is AppResult.Error)
                 return localResult
 
-            // 3. Get all ids from database, useful for next sync calls
+            // 4. Get all ids from database, useful for next sync calls
             val deviceIdsResult = deviceSource.getAllDevicesId()
             if (deviceIdsResult is AppResult.Error)
                 return deviceIdsResult
