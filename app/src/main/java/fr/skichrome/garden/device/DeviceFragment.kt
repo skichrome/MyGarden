@@ -83,7 +83,7 @@ class DeviceFragment : BaseFragment<FragmentDeviceBinding>(R.layout.fragment_dev
     private fun configureValidateBtn()
     {
         binding.fragmentDeviceValidateBtn.setOnClickListener {
-            if (validateInputFields())
+            if (deviceEditedId != -1L && validateInputFields())
                 saveChanges()
         }
     }
@@ -142,5 +142,12 @@ class DeviceFragment : BaseFragment<FragmentDeviceBinding>(R.layout.fragment_dev
             startTimeMin = binding.fragmentDeviceSprinkleMinuteText.text.toString().toInt(),
             duration = binding.fragmentDeviceSprinkleDurationText.text.toString().toInt()
         )
+
+        if (deviceEditedId != null)
+            deviceViewModel.updateNewDeviceAndConfiguration(device, deviceConfiguration)
+        else
+            deviceViewModel.createNewDeviceAndConfiguration(device, deviceConfiguration)
+
+        deviceEditedId = -1L
     }
 }

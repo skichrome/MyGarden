@@ -54,6 +54,6 @@ private val mainModule = module {
 }
 
 private val deviceModule = module {
-    single<DeviceRepository> { DeviceRepositoryImpl(get(), get()) }
+    single<DeviceRepository> { DeviceRepositoryImpl(get(), get(), get(), get()) }
     viewModel { DeviceViewModel(get()) }
 }
