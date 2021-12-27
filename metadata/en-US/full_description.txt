@@ -1,0 +1,2 @@
+This application is a client app that fetch environmental data from my sprinkle system.
+The backend is a self-hosted IOT instance that make the bridge between my SigFox modules and the Android app.
