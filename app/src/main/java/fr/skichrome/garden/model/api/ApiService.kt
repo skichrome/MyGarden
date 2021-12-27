@@ -60,6 +60,15 @@ interface ApiService
         @Field("device_unique_id") uniqueId: String,
         @Field("device_name") deviceName: String,
         @Field("device_description") description: String?
+    ): DeviceResponse
+
+    @FormUrlEncoded
+    @POST("devices/{deviceId}")
+    suspend fun updateDevice(
+        @Path("deviceId") id: Long,
+        @Field("device_unique_id") uniqueId: String,
+        @Field("device_name") deviceName: String,
+        @Field("device_description") description: String?
     ): StandardApiResponse
 
     @GET("device/{deviceId}/sensors-data")
@@ -71,7 +80,8 @@ interface ApiSource
     suspend fun getDeviceConfiguration(deviceId: Long): AppResult<DeviceConfResponse>
     suspend fun pushDeviceConfiguration(deviceRef: Long, startTimeHour: Int, startTimeMin: Int, duration: Int): AppResult<StandardApiResponse>
     suspend fun getDevices(): AppResult<DeviceResponse>
-    suspend fun createNewDevice(uniqueId: String, deviceName: String, description: String?): AppResult<StandardApiResponse>
+    suspend fun createNewDevice(uniqueId: String, deviceName: String, description: String?): AppResult<DeviceResponse>
+    suspend fun updateDevice(id: Long, uniqueId: String, deviceName: String, description: String?): AppResult<StandardApiResponse>
     suspend fun getSensorsDataFromDevice(deviceRef: Long): AppResult<SensorsDataResponse>
 }
 
@@ -115,7 +125,7 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
         }
     }
 
-    override suspend fun createNewDevice(uniqueId: String, deviceName: String, description: String?): AppResult<StandardApiResponse> =
+    override suspend fun createNewDevice(uniqueId: String, deviceName: String, description: String?): AppResult<DeviceResponse> =
         withContext(dispatcher) {
             return@withContext try
             {
@@ -124,6 +134,19 @@ class ApiSourceImpl(private val service: ApiService, private val dispatcher: Cor
             } catch (e: Throwable)
             {
                 Timber.e(e, "An error occurred when trying to create new device")
+                AppResult.Error(e)
+            }
+        }
+
+    override suspend fun updateDevice(id: Long, uniqueId: String, deviceName: String, description: String?): AppResult<StandardApiResponse> =
+        withContext(dispatcher) {
+            return@withContext try
+            {
+                val result = service.updateDevice(id, uniqueId, deviceName, description)
+                AppResult.Success(result)
+            } catch (e: Throwable)
+            {
+                Timber.e(e, "An error occurred when trying to update device ($deviceName)")
                 AppResult.Error(e)
             }
         }

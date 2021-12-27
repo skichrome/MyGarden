@@ -23,6 +23,7 @@ import fr.skichrome.garden.model.local.Device
 import fr.skichrome.garden.model.local.DeviceData
 import fr.skichrome.garden.util.AppEventObserver
 import fr.skichrome.garden.util.BaseFragment
+import fr.skichrome.garden.util.findToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.*
@@ -46,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
 
     override fun onBindingReady()
     {
+        findToolbar()?.menu?.findItem(R.id.action_global_deviceFragment)?.isVisible = true
         configureViewModel()
         configureDatePickers()
     }
@@ -53,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     override fun onDestroyView()
     {
         spinnerAdapter = null
+        findToolbar()?.menu?.findItem(R.id.action_global_deviceFragment)?.isVisible = false
         super.onDestroyView()
     }
 
@@ -243,7 +246,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     private fun updateSoilMoistureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeSoilMoistureChart) {
         // --- Chart Entries definition --- //
         val soilMoistureEntries = deviceDataList.map {
-            Entry(it.timestamp.toFloat(), it.temperature.toFloat())
+            Entry(it.timestamp.toFloat(), it.soilMoisture.toFloat())
         }
 
         // --- Chart Lines definition --- //

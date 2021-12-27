@@ -29,6 +29,9 @@ interface DeviceDao : BaseDao<Device>
 
     @Query("SELECT * FROM devices WHERE id = :deviceId LIMIT 1")
     suspend fun getDevice(deviceId: Long): Device
+
+    @Query("DELETE FROM devices WHERE id = :deviceId")
+    suspend fun deleteDeviceFromId(deviceId: Long): Int
 }
 
 interface DeviceSource
@@ -37,6 +40,7 @@ interface DeviceSource
     suspend fun insertDevices(devices: List<Device>): AppResult<List<Long>>
     suspend fun getAllDevicesId(): AppResult<List<Long>>
     suspend fun getDevice(deviceId: Long): AppResult<Device>
+    suspend fun deleteDevice(deviceId: Long): AppResult<Int>
 }
 
 class DeviceSourceImpl(db: GardenDatabase, private val dispatcher: CoroutineDispatcher = Dispatchers.IO) : DeviceSource
@@ -57,7 +61,7 @@ class DeviceSourceImpl(db: GardenDatabase, private val dispatcher: CoroutineDisp
     override suspend fun insertDevices(devices: List<Device>): AppResult<List<Long>> = withContext(dispatcher) {
         return@withContext try
         {
-            val result = deviceDao.insertIgnore(*devices.toTypedArray())
+            val result = deviceDao.insertReplace(*devices.toTypedArray())
             AppResult.Success(result)
         } catch (e: Throwable)
         {
@@ -80,6 +84,17 @@ class DeviceSourceImpl(db: GardenDatabase, private val dispatcher: CoroutineDisp
         return@withContext try
         {
             val result = deviceDao.getDevice(deviceId)
+            AppResult.Success(result)
+        } catch (e: Throwable)
+        {
+            AppResult.Error(e)
+        }
+    }
+
+    override suspend fun deleteDevice(deviceId: Long): AppResult<Int> = withContext(dispatcher) {
+        return@withContext try
+        {
+            val result = deviceDao.deleteDeviceFromId(deviceId)
             AppResult.Success(result)
         } catch (e: Throwable)
         {

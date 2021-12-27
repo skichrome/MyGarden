@@ -73,4 +73,28 @@ class DeviceViewModel(private val repository: DeviceRepository) : ViewModel()
     {
         _currentDeviceId.value = device?.id
     }
+
+    fun createNewDeviceAndConfiguration(device: Device, deviceConfiguration: DeviceConfiguration)
+    {
+        viewModelScope.launch {
+            when (val result = repository.createDeviceAndConfiguration(device, deviceConfiguration))
+            {
+                is AppResult.Success -> Timber.d("Created") // Todo : trigger update worker
+                is AppResult.Error -> Timber.e(result.exception, "Can't create new device and configuration")
+                else -> Unit
+            }
+        }
+    }
+
+    fun updateNewDeviceAndConfiguration(device: Device, deviceConfiguration: DeviceConfiguration)
+    {
+        viewModelScope.launch {
+            when (val result = repository.updateDeviceAndConfiguration(device, deviceConfiguration))
+            {
+                is AppResult.Success -> Timber.d("Updated") // Todo : trigger update worker
+                is AppResult.Error -> Timber.e(result.exception, "Can't create new device and configuration")
+                else -> Unit
+            }
+        }
+    }
 }

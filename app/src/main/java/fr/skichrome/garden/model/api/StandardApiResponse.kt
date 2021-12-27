@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class StandardApiResponse(
     @Json(name = "statusCode") val statusCode: Int,
-    @Json(name = "result") val result: String
+    @Json(name = "status") val result: String
 )

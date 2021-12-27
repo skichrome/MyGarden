@@ -6,6 +6,8 @@ parameters.
 
 ## Build, configuration
 
+[![Build Status](https://jenkins.campeoltoni.fr/buildStatus/icon?job=MyGarden)](https://jenkins.campeoltoni.fr/job/MyGarden/)
+
 To build this project you need to add `apiKey` and `apiBaseUrl` variables in a file
 named `credentials.properties` in the root of the project.
 

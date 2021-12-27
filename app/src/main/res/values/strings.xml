@@ -3,8 +3,13 @@
 <resources>
     <string name="app_name">My Garden</string>
 
+    <!-- Extensions -->
+    <string name="extensions_tv_error_no_text">This field is required</string>
+    <string name="extensions_tv_error_not_a_number">Please enter a number here</string>
+
     <!-- Activity Main -->
     <string name="overflow_menu_device_configuration">Device configuration</string>
+    <string name="overflow_menu_new_device">Create new device</string>
     <string name="overflow_menu_settings">Application Settings</string>
 
     <!-- Home Fragment -->
@@ -30,6 +35,8 @@
     <string name="fragment_device_hour_hint">Sprinkle Hour</string>
     <string name="fragment_device_minute_hint">Sprinkle Minute (approx.)</string>
     <string name="fragment_device_duration_hint">Sprinkle Duration</string>
+    <string name="fragment_device_btn_creation_text">Create</string>
+    <string name="fragment_device_btn_update_text">Update</string>
     <string name="view_model_device_load_device_error">An error occurred when trying to load the device</string>
     <string name="view_model_device_load_device_conf_error">An error occurred when trying to load the device configuration</string>
 </resources>
