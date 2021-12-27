@@ -246,7 +246,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
     private fun updateSoilMoistureChart(deviceDataList: List<DeviceData>) = with(binding.fragmentHomeSoilMoistureChart) {
         // --- Chart Entries definition --- //
         val soilMoistureEntries = deviceDataList.map {
-            Entry(it.timestamp.toFloat(), it.temperature.toFloat())
+            Entry(it.timestamp.toFloat(), it.soilMoisture.toFloat())
         }
 
         // --- Chart Lines definition --- //
