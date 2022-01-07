@@ -196,6 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceSprinkleHourLayout"
+                app:layout_constraintVertical_bias="0"
                 app:suffixText="m">
 
                 <com.google.android.material.textfield.TextInputEditText
