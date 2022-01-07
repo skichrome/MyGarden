@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Mon Jardin</string>
+
+    <!-- Extensions -->
+    <string name="extensions_tv_error_no_text">Ce champ est requis</string>
+    <string name="extensions_tv_error_not_a_number">Veuillez entrer un nombre</string>
+
+    <!-- Activity Main -->
+    <string name="overflow_menu_device_configuration">Configuration de l\'appareil</string>
+    <string name="overflow_menu_new_device">Créer un appareil</string>
+    <string name="overflow_menu_settings">Paramètres de l\'Application</string>
+
+    <!-- Home Fragment -->
+    <string name="fragment_home_spinner_null_entry">Selectionner un appareil</string>
+    <string name="fragment_home_filter_date_title">Filtrer par date</string>
+    <string name="fragment_home_temperature_chart_title">Température</string>
+    <string name="fragment_home_pressure_chart_title">Pression atmosphérique et altitude</string>
+    <string name="fragment_home_soil_moisture_chart_title">Humidité du sol</string>
+    <string name="fragment_home_luminosity_chart_title">Luminosité</string>
+    <string name="fragment_home_filter_date_start_hint">Début</string>
+    <string name="fragment_home_filter_date_end_hint">Fin</string>
+    <string name="fragment_home_filter_btn_clear">Effacer</string>
+    <string name="view_model_home_load_device_error">Une erreur est survenue en chargant les appareils</string>
+    <string name="view_model_home_load_device_data_error">Une erreur est survenue en chargant les données de l\'appareil</string>
+
+    <!-- Device Fragment -->
+    <string name="fragment_device_definition_title">Définition de l\'appareil</string>
+    <string name="fragment_device_configuration_title">Configuration de l\'appareil</string>
+    <string name="fragment_device_unique_id_hint">ID de l\'appareil (SigFox ID)</string>
+    <string name="fragment_device_name_hint">Nom de l\'appareil</string>
+    <string name="fragment_device_description_hint">Description de l\'appareil</string>
+    <string name="fragment_device_sprinkle_enabled_sw_hint">Arrosage activé</string>
+    <string name="fragment_device_hour_hint">Heure d\'arrosage</string>
+    <string name="fragment_device_minute_hint">Minute d\'arrosage (approx.)</string>
+    <string name="fragment_device_duration_hint">Durée d\'arrosage</string>
+    <string name="fragment_device_btn_creation_text">Créer</string>
+    <string name="fragment_device_btn_update_text">Mettre à jour</string>
+    <string name="view_model_device_load_device_error">Une erreur est survenue en chargant l\'appareil</string>
+    <string name="view_model_device_load_device_conf_error">Une erreur est survenue en chargant la configuration de l\'appareil</string>
+</resources>
