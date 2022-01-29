@@ -1,11 +1,11 @@
 buildscript {
     ext {
         kotlin_version = "1.6.10"
-        nav_version = "2.3.5"
-        koin_version = '3.1.4'
+        nav_version = '2.3.5' // Wait 2.5.0 release to support AGP 7.1
+        koin_version = '3.1.5'
         lifecycle_version = "2.4.0"
         work_version = "2.7.1"
-        room_version = "2.4.0"
+        room_version = "2.4.1"
         moshi_version = "1.13.0"
     }
     repositories {
@@ -14,7 +14,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }

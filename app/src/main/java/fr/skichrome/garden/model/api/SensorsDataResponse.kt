@@ -13,10 +13,10 @@ data class SensorsDataResponse(
 @JsonClass(generateAdapter = true)
 data class SensorsDataResult(
     @Json(name = "id") val id: Long,
-    @Json(name = "altitude") val altitude: Long,
-    @Json(name = "barometric") val barometric: Long,
+    @Json(name = "altitude") val altitude: Double,
+    @Json(name = "barometric") val barometric: Double,
     @Json(name = "temperature") val temperature: Double,
-    @Json(name = "soil_moisture") val soilMoisture: Double,
+    @Json(name = "soil_moisture") val soilMoisture: Long,
     @Json(name = "luminosity") val luminosity: Long,
     @Json(name = "timestamp") val timestamp: Long
 )

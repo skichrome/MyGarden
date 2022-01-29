@@ -187,6 +187,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         // --- Chart Lines definition --- //
         val temperatureLineDataSet = LineDataSet(temperatureEntries, "Temperature").apply {
             color = Color.CYAN
+            lineWidth = 2f
             setDrawCircles(false)
         }
 
@@ -217,12 +218,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         // --- Chart Lines definition --- //
         val barometricLineDataSet = LineDataSet(barometricEntries, "Barometric Pressure").apply {
             color = Color.RED
+            lineWidth = 2f
             axisDependency = YAxis.AxisDependency.LEFT
             setDrawCircles(false)
         }
 
         val altitudeLineDataSet = LineDataSet(altitudeEntries, "Altitude").apply {
             color = Color.GREEN
+            lineWidth = 2f
             axisDependency = YAxis.AxisDependency.RIGHT
             setDrawCircles(false)
         }
@@ -252,6 +255,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         // --- Chart Lines definition --- //
         val soilMoistureLineDataSet = LineDataSet(soilMoistureEntries, "Soil Moisture").apply {
             color = Color.BLUE
+            lineWidth = 2f
             setDrawCircles(false)
         }
 
@@ -278,6 +282,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home)
         // --- Chart Lines definition --- //
         val luminosityLineDataSet = LineDataSet(luminosityEntries, "Luminosity").apply {
             color = Color.YELLOW
+            lineWidth = 2f
             setDrawCircles(false)
         }
 
