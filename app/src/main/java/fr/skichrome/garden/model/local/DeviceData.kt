@@ -25,10 +25,10 @@ import timber.log.Timber
 data class DeviceData(
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = false) val id: Long,
     @ColumnInfo(name = "device_ref", index = true) val deviceRef: Long,
-    @ColumnInfo(name = "altitude") val altitude: Long,
-    @ColumnInfo(name = "barometric") val barometric: Long,
+    @ColumnInfo(name = "altitude") val altitude: Double,
+    @ColumnInfo(name = "barometric") val barometric: Double,
     @ColumnInfo(name = "temperature") val temperature: Double,
-    @ColumnInfo(name = "soil_moisture") val soilMoisture: Double,
+    @ColumnInfo(name = "soil_moisture") val soilMoisture: Long,
     @ColumnInfo(name = "luminosity") val luminosity: Long,
     @ColumnInfo(name = "timestamp") val timestamp: Long
 )
