@@ -56,9 +56,9 @@ open class AppEvent<out T>(private val content: T)
  */
 class AppEventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<AppEvent<T>>
 {
-    override fun onChanged(event: AppEvent<T>?)
+    override fun onChanged(value: AppEvent<T>)
     {
-        event?.getContentIfNotHandled()?.let {
+        value.getContentIfNotHandled()?.let {
             onEventUnhandledContent(it)
         }
     }

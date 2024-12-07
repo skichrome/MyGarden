@@ -1,12 +1,12 @@
 buildscript {
     ext {
-        kotlin_version = "1.6.10"
-        nav_version = '2.3.5' // Wait 2.5.0 release to support AGP 7.1
-        koin_version = '3.1.5'
-        lifecycle_version = "2.4.0"
-        work_version = "2.7.1"
-        room_version = "2.4.1"
-        moshi_version = "1.13.0"
+        kotlin_version = '2.1.0'
+        nav_version = '2.8.4'
+        koin_version = '4.0.0'
+        lifecycle_version = '2.8.7'
+        work_version = '2.10.0'
+        room_version = "2.6.1"
+        moshi_version = '1.15.2'
     }
     repositories {
         google()
@@ -14,12 +14,16 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+plugins {
+    id 'com.google.devtools.ksp' version '2.1.0-1.0.29' apply false // -> /!\ It doesn't self update /!\
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
