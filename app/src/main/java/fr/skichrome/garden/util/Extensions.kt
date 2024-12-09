@@ -1,7 +1,9 @@
 package fr.skichrome.garden.util
 
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import fr.skichrome.garden.R
 import fr.skichrome.garden.main.MainActivity
@@ -11,6 +13,8 @@ fun Fragment.findToolbar(): Toolbar? = when (activity)
     is MainActivity -> requireActivity().findViewById(R.id.activityMainToolbar)
     else -> null
 }
+
+fun Fragment.showSnackBar(@StringRes msgRef: Int) = Snackbar.make(requireView(), msgRef, Snackbar.LENGTH_LONG).show()
 
 fun TextInputLayout.setErrorIfNoText(): Boolean
 {

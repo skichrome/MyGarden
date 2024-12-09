@@ -16,8 +16,7 @@
     <fragment
         android:id="@+id/deviceFragment"
         android:name="fr.skichrome.garden.device.DeviceFragment"
-        android:label="DeviceFragment"
-        tools:layout="@layout/fragment_device" />
+        android:label="DeviceFragment" />
     <action
         android:id="@+id/action_global_deviceFragment"
         app:destination="@id/deviceFragment"
