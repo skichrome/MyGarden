@@ -20,15 +20,7 @@ val keystore: File = rootProject.file("keystore.properties").apply {
 val credProps = Properties()
 val credentialsFile = rootProject.file("credentials.properties").apply {
     if (exists())
-    {
-        println("CredProp exist")
         credProps.load(FileInputStream(this@apply))
-    }
-    else
-    {
-        println("CredProp don't exist")
-        credProps.load(FileInputStream(File(System.getenv("API_CREDENTIAL_FILE"))))
-    }
 }
 
 android {
@@ -43,11 +35,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        if (credentialsFile.exists())
+        if (!credentialsFile.exists())
         {
-            buildConfigField("String", "API_BASE_URL", credProps["apiBaseUrl"] as String)
-            buildConfigField("String", "API_KEY", credProps["apiKey"] as String)
+            println("CredProp don't exist")
+            credProps.load(FileInputStream(File(System.getenv("API_CREDENTIAL_FILE"))))
+
         }
+        buildConfigField("String", "API_BASE_URL", credProps["apiBaseUrl"] as String)
+        buildConfigField("String", "API_KEY", credProps["apiKey"] as String)
     }
 
 //    sourceSets {
@@ -150,7 +145,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.compose.viewmodel)
-    implementation (libs.androidx.runtime.livedata)
+    implementation(libs.androidx.runtime.livedata)
 
     implementation(libs.androidx.work)
 
