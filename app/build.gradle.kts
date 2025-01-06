@@ -21,6 +21,8 @@ val credProps = Properties()
 val credentialsFile = rootProject.file("credentials.properties").apply {
     if (exists())
         credProps.load(FileInputStream(this@apply))
+    else
+        credProps.load(FileInputStream(System.getenv("API_CREDENTIAL_FILE")))
 }
 
 android {

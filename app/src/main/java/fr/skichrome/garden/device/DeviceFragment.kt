@@ -4,19 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import fr.skichrome.garden.MyGardenTheme
 import fr.skichrome.garden.R
-import fr.skichrome.garden.home.HomeSpinnerAdapter
-import fr.skichrome.garden.model.local.Device
 import fr.skichrome.garden.util.AppEventObserver
 import fr.skichrome.garden.util.findToolbar
 import fr.skichrome.garden.util.showSnackBar
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class DeviceFragment : Fragment()
 {
@@ -26,7 +22,6 @@ class DeviceFragment : Fragment()
 
     private val deviceViewModel: DeviceViewModel by viewModel()
 
-    private var spinnerAdapter: HomeSpinnerAdapter? = null
     private var deviceEditedId: Long? = null
 
     // ===================================
@@ -54,8 +49,6 @@ class DeviceFragment : Fragment()
 
     override fun onDestroyView()
     {
-        // Todo
-        spinnerAdapter = null
         findToolbar()?.menu?.findItem(R.id.fragment_device_new_device)?.apply {
             isVisible = false
             setOnMenuItemClickListener(null)
@@ -70,7 +63,6 @@ class DeviceFragment : Fragment()
     private fun configureViewModel()
     {
         deviceViewModel.errorMsgRef.observe(viewLifecycleOwner, AppEventObserver { showSnackBar(it) })
-        deviceViewModel.devices.observe(viewLifecycleOwner) { updateSpinner(it) }
     }
 
     private fun configureUI()
@@ -89,28 +81,6 @@ class DeviceFragment : Fragment()
 //        binding.fragmentDeviceValidateBtn.setOnClickListener {
 //            if (deviceEditedId != -1L && validateInputFields())
 //                saveChanges()
-//        }
-    }
-
-    private fun updateSpinner(devices: List<Device>)
-    {
-        val itemsWithNullEntry = mutableListOf<Pair<Device?, String>>(Pair(null, getString(R.string.fragment_home_spinner_null_entry)))
-        devices.map { itemsWithNullEntry.add(Pair(it, it.name)) }
-
-        Timber.w("Items: $itemsWithNullEntry")
-
-//        spinnerAdapter = HomeSpinnerAdapter(requireContext(), itemsWithNullEntry)
-//        binding.fragmentDeviceSpinnerDevices.adapter = spinnerAdapter
-//        binding.fragmentDeviceSpinnerDevices.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
-//        {
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
-//            {
-//                val selectedDevice = itemsWithNullEntry[position].first
-//                deviceViewModel.setCurrentDevice(selectedDevice)
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) =
-//                Timber.i("[fragmentHomeSpinnerDevices] - OnNothingSelected called")
 //        }
     }
 
@@ -133,7 +103,7 @@ class DeviceFragment : Fragment()
 
     private fun saveChanges()
     {
-        Toast.makeText(context, "[DEV] Fields valid - (${deviceEditedId?.let { "Edition" } ?: "Creation"})", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "[DEV] Fields valid - (${deviceEditedId?.let { "Edition" } ?: "Creation"})", Toast.LENGTH_SHORT).show()
 
 //        val device = Device(
 //            id = deviceEditedId ?: 0L,
@@ -154,6 +124,6 @@ class DeviceFragment : Fragment()
 //        else
 //            deviceViewModel.createNewDeviceAndConfiguration(device, deviceConfiguration)
 
-        deviceEditedId = -1L
+//        deviceEditedId = -1L
     }
 }
