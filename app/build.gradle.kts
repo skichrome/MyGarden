@@ -20,9 +20,15 @@ val keystore: File = rootProject.file("keystore.properties").apply {
 val credProps = Properties()
 val credentialsFile = rootProject.file("credentials.properties").apply {
     if (exists())
+    {
+        println("CredProp exist")
         credProps.load(FileInputStream(this@apply))
+    }
     else
-        credProps.load(FileInputStream(System.getenv("API_CREDENTIAL_FILE")))
+    {
+        println("CredProp don't exist")
+        credProps.load(FileInputStream(File(System.getenv("API_CREDENTIAL_FILE"))))
+    }
 }
 
 android {
